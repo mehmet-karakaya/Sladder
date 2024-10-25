@@ -13,33 +13,43 @@ def dice():
 	return random.choice([1,2,3,4,5,6])
 
 def checkUpper(place):
-	j = 0
+	global upperSpots
 	for x in range(len(upperSpots)):
-		print(x)
+		if place == upperSpots[x][0]:
+			return upperSpots[x][1]
+	return -1
 
 def checkLower(place):
-	j = 0
+	global lowerSpots
 	for x in range(len(lowerSpots)):
-		print(x)
+		if place == lowerSpots[x][0]:
+			return lowerSpots[x][1]
+	return -1
 
-def checkSpots(place):
-	global upperSpots, lowerSpots, p1Place, p2Place, p3Place
-	if (checkUpper(player, place)):
-		
-	else:
-		checkLower(player, place)
+def checkSpots(player, place):
+	global p1Place, p2Place, p3Place
+	x = checkUpper(place)
+	if x < 0:
+		x = checkLower(place)
+	if x > 0:
+		if player == "p1":
+			p1Place = x
+		elif player == "p2":
+			p2Place = x
+		elif player == "p3":
+			p3Place = x
 
 def playerTurn(player):
 	global p1Place, p2Place, p3Place
 	if player == "p1":
 		p1Place += dice()
-		checkSpots(p1Place)
+		checkSpots(player, p1Place)
 	elif player == "p2":
 		p2Place += dice()
-		checkSpots(p2Place)
+		checkSpots(player, p2Place)
 	elif player == "p3":
 		p3Place += dice()
-		checkSpots(p3Place)
+		checkSpots(player, p3Place)
 	nextPlayerTurn()
 
 def nextPlayerTurn():
@@ -49,7 +59,14 @@ def nextPlayerTurn():
 		i = 1
 	currPlayer = "p" + str(i)
 
+
 while (p1Place < endPoint and p2Place < endPoint and p3Place < endPoint):
 	playerTurn(currPlayer)
-	
+if(p1Place >= endPoint):
+	print("Winner is P1")
+elif (p2Place >= endPoint):
+	print("Winner is P2")
+elif(p3Place >= endPoint):
+	print("Winner is P3")
+
 	
