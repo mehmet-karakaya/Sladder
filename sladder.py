@@ -43,12 +43,24 @@ def playerTurn(player):
 	global p1Place, p2Place, p3Place
 	if player == "p1":
 		p1Place += dice()
+		if p1Place >= 100:
+			p1Place = 100
+			print("Player 1 is the winner")
+			return
 		checkSpots(player, p1Place)
 	elif player == "p2":
 		p2Place += dice()
+		if p2Place >= 100:
+			p2Place = 100
+			print("Player 2 is the winner")
+			return		
 		checkSpots(player, p2Place)
 	elif player == "p3":
 		p3Place += dice()
+		if p3Place >= 100:
+			p3Place = 100
+			print("Player 3 is the winner")
+			return
 		checkSpots(player, p3Place)
 	nextPlayerTurn()
 
@@ -62,11 +74,5 @@ def nextPlayerTurn():
 
 while (p1Place < endPoint and p2Place < endPoint and p3Place < endPoint):
 	playerTurn(currPlayer)
-if(p1Place >= endPoint):
-	print("Winner is P1")
-elif (p2Place >= endPoint):
-	print("Winner is P2")
-elif(p3Place >= endPoint):
-	print("Winner is P3")
 
-	
+
