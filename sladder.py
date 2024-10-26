@@ -1,4 +1,5 @@
 import random
+import pygame, sys
 
 endPoint = 100
 p1Place = 0
@@ -71,8 +72,25 @@ def nextPlayerTurn():
 		i = 1
 	currPlayer = "p" + str(i)
 
-
 while (p1Place < endPoint and p2Place < endPoint and p3Place < endPoint):
 	playerTurn(currPlayer)
 
+pygame.init()
+screen = pygame.display.set_mode((800, 800))
+pygame.display.set_caption("Sladder")
+img = pygame.image.load('./img/snake_and_ladder_map.jpg')
+img = pygame.transform.scale(img, (675, 800))
+done = False
+bg = (127, 127, 127)
 
+while not done:
+	for event in pygame.event.get():
+		screen.fill(bg)
+		rect = img.get_rect()
+		rect.center = img.get_rect().center
+		screen.blit(img, rect)
+		if event.type == pygame.QUIT:
+			pygame.quit()
+			sys.exit()
+			done = True
+	pygame.display.update()
