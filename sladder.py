@@ -5,7 +5,6 @@ import pygame, sys
 import tkinter as tk
 from PIL import ImageTk, Image
 
-
 endPoint = 100
 p1Place = 0
 p2Place = 0
@@ -30,10 +29,9 @@ upperSpots = [[20, 39], [30, 53], [37, 65], [59, 78], [69, 86], [85, 94]]
 lowerSpots = [[96, 2], [54, 7], [25, 9], [41, 21], [70, 31], [83, 38], [79, 42], [92, 64]]
 
 def dice():
-	global diceRolled, p1Place, p2Place, p3Place, p4Place, p5Place, p1Name, p2Name, p3Name, p4Name, p5Name
+	global diceRolled, rolledDice
 	diceRolled = random.choice([1,2,3,4,5,6])
 	rolledDice.config(text="Rolled Dice: " + str(diceRolled))
-	print(p1Name + ": " + str(p1Place) + ", " + p2Name + ": " + str(p2Place) + ", p3: " + str(p3Place) + ", p4: " + str(p4Place) + ", p5: " + str(p5Place))
 	return diceRolled
 
 def checkUpper(place):
@@ -68,7 +66,7 @@ def checkSpots(player, place):
 			p5Place = x
 
 def setPlayers(playerName):
-	global playerCount, playerNames, p1Name, p2Name, p3Name, p4Name, p5Name
+	global playerCount, playerNames, p1Name, p2Name, p3Name, p4Name, p5Name, maxPlayer, currPlayer
 	if playerCount > maxPlayer:
 		playerCount -= 1
 		return
@@ -87,6 +85,7 @@ def setPlayers(playerName):
 	elif playerCount == 5:
 		p5Name = playerName
 		playerNames[4] = p5Name
+	currPlayer = playerNames[0]
 
 def playerTurn(player):
 	global p1Place, p2Place, p3Place, p4Place, p5Place, p1Name, p2Name, p3Name, p4Name, p5Name
@@ -130,18 +129,20 @@ def playerTurn(player):
 def nextPlayerTurn():
 	global i, currPlayer, playerCount, playerNames
 	i += 1
-	if i > playerCount:
-		i = 1
+	if i > playerCount - 1:
+		i = 0
 	currPlayer = playerNames[i]
 
 def rollDiceBtnFunc():
-	global currPlayer
+	global currPlayer, p1Place, p2Place, p3Place, p4Place, p5Place, p1Name, p2Name, p3Name, p4Name, p5Name
 	playerTurn(currPlayer)
+	print(p1Name + ": " + str(p1Place) + ", " + p2Name + ": " + str(p2Place) + ", " + p3Name + ": " + str(p3Place) + ", " + p4Name + ": " + str(p4Place) + ", " + p5Name + ": " + str(p5Place))
 
 def getInput():
 	global inputtxt, frame, inputFromUser
 	inp = inputtxt.get(1.0, "end-1c")
 	inputFromUser = inp
+	setPlayers(inputFromUser)
 	frame.destroy()
 	return
 
@@ -167,23 +168,22 @@ def addPlayerBtnFunc():
 							pady = 5,
 							command = getInput)
 	printButton.pack()
-	setPlayers(inputFromUser)
 
 def removePlayerBtnFunc():
-	global playerCount, currPlayer
-	currPlayer = 1
+	global playerCount, currPlayer, playerNames
+	currPlayer = playerNames[0]
 	if playerCount > 0:
 		playerCount -= 1
 
 def resBtnFunc():
-	global p1Place, p2Place, p3Place, p4Place, p5Place
+	global p1Place, p2Place, p3Place, p4Place, p5Place, playerNames, currPlayer
 	p1Place = 0
 	p2Place = 0
 	p3Place = 0
 	p4Place = 0
 	p5Place = 0
+	currPlayer = playerNames[0]
 	return
-
 
 
 #while (p1Place < endPoint and p2Place < endPoint and p3Place < endPoint):
