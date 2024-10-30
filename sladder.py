@@ -88,9 +88,12 @@ def setPlayers(playerName):
 	currPlayer = playerNames[0]
 
 def playerTurn(player):
-	global p1Place, p2Place, p3Place, p4Place, p5Place, p1Name, p2Name, p3Name, p4Name, p5Name
+	global p1Place, p2Place, p3Place, p4Place, p5Place, p1Name, p2Name, p3Name, p4Name, p5Name, rolledDice
 	if player == p1Name:
 		p1Place += dice()
+		rolledDiceText = rolledDice.cget("text")
+		rolledDiceText = p1Name + " " + rolledDiceText
+		rolledDice.config(text=rolledDiceText)
 		if p1Place >= 100:
 			p1Place = 100
 			print(p1Name + " is the winner")
@@ -98,6 +101,9 @@ def playerTurn(player):
 		checkSpots(player, p1Place)
 	elif player == p2Name:
 		p2Place += dice()
+		rolledDiceText = rolledDice.cget("text")
+		rolledDiceText = p2Name + " " + rolledDiceText
+		rolledDice.config(text=rolledDiceText)
 		if p2Place >= 100:
 			p2Place = 100
 			print(p2Name + " is the winner")
@@ -105,6 +111,9 @@ def playerTurn(player):
 		checkSpots(player, p2Place)
 	elif player == p3Name:
 		p3Place += dice()
+		rolledDiceText = rolledDice.cget("text")
+		rolledDiceText = p3Name + " " + rolledDiceText
+		rolledDice.config(text=rolledDiceText)
 		if p3Place >= 100:
 			p3Place = 100
 			print(p3Name + " is the winner")
@@ -112,6 +121,9 @@ def playerTurn(player):
 		checkSpots(player, p3Place)
 	elif player == p4Name:
 		p4Place += dice()
+		rolledDiceText = rolledDice.cget("text")
+		rolledDiceText = p4Name + " " + rolledDiceText
+		rolledDice.config(text=rolledDiceText)
 		if p4Place >= 100:
 			p4Place = 100
 			print(p4Name + " is the winner")
@@ -119,6 +131,9 @@ def playerTurn(player):
 		checkSpots(player, p4Place)
 	elif player == p5Name:
 		p5Place += dice()
+		rolledDiceText = rolledDice.cget("text")
+		rolledDiceText = p5Name + " " + rolledDiceText
+		rolledDice.config(text=rolledDiceText)
 		if p5Place >= 100:
 			p5Place = 100
 			print(p5Name + " is the winner")
