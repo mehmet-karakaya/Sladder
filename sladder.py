@@ -3,7 +3,9 @@ import random
 import pygame, sys
 '''
 import tkinter as tk
+from tkinter import *
 from PIL import ImageTk, Image
+
 
 endPoint = 100
 p1Place = 0
@@ -27,6 +29,7 @@ inputFromUser = ""
 frame = ""
 upperSpots = [[20, 39], [30, 53], [37, 65], [59, 78], [69, 86], [85, 94]]
 lowerSpots = [[96, 2], [54, 7], [25, 9], [41, 21], [70, 31], [83, 38], [79, 42], [92, 64]]
+
 
 def dice():
 	global diceRolled, rolledDice
@@ -200,6 +203,8 @@ def resBtnFunc():
 	currPlayer = playerNames[0]
 	return
 
+buttonNames = ["Restart Game", "Add Player", "Remove Player", "Roll Dice"]
+buttonFunctions = [resBtnFunc, addPlayerBtnFunc, removePlayerBtnFunc, rollDiceBtnFunc]
 
 #while (p1Place < endPoint and p2Place < endPoint and p3Place < endPoint):
 #	playerTurn(currPlayer)
@@ -232,8 +237,37 @@ window.title("Sladder")
 window.geometry("830x800")
 window.configure(background='white')
 
+# Create Canvases for image and buttons
+canvasImage = Canvas(window, width=675, height=800)
+canvasImage.pack(side="left", fill="both", expand=True)
+canvasButtons = Canvas(window, width=100, height=800)
+canvasButtons.pack(side="right", fill="both", expand=True)
+
 # Add Game Board to the left of the screen
 path = "./img/snake_and_ladder_map.jpg"
+
+img = ImageTk.PhotoImage(Image.open(path).resize((675, 800)))
+
+# Add image to the Canvas Items
+canvasImage.create_image(0,0, anchor=NW, image=img)
+
+'''
+# Add Restart Button to the right of the screen
+resBtn = tk.Button(canvasButtons, text="Restart Game", height=2, width=20, anchor=W, command= resBtnFunc)
+canvasButtons_window = canvasButtons.create_window(0, 0, anchor=NW, window=resBtn)
+'''
+
+for i in range(len(buttonNames)):
+	# Create a Button widget for each button
+	button = tk.Button(canvasButtons, text=buttonNames[i], height=2, width=20, anchor=W, command= buttonFunctions[i])
+	button.grid(row=i, column=0, padx=10, pady=10)
+# Rolled Dice Label
+rolledDice = tk.Label(canvasButtons, text="Rolled Dice: " + str(diceRolled), height=2, width=20, anchor=W)
+rolledDice.grid(row=len(buttonNames), column=0, padx=10, pady=10)
+
+greenPlayer = canvasImage.create_oval(35, 735, 55, 755, outline="#f11", fill="#1f1", width=1)
+
+"""
 #Creates a Tkinter-compatible photo image, which can be used everywhere Tkinter expects an image object.
 img = ImageTk.PhotoImage(Image.open(path).resize((675, 800)))
 
@@ -257,10 +291,10 @@ removePlayerBtn.grid(row=2, column=1, rowspan=1, columnspan=1, padx=0, pady=0)
 rollDiceBtn = tk.Button(window, text="Roll Dice", height=1, width=20, command = rollDiceBtnFunc)
 rollDiceBtn.grid(row=3, column=1, rowspan=1, columnspan=1, padx=0, pady=0)
 
-#Rolled Dice:
+# Rolled Dice
 rolledDice = tk.Label(window, text="Rolled Dice: " + str(diceRolled), height=2, width=20)
 rolledDice.grid(row=4, column=1, rowspan=1, columnspan=1, padx=0, pady=0)
-
+"""
 
 #Start the GUI
 window.mainloop()
