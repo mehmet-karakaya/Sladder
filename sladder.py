@@ -39,8 +39,19 @@ startPoints = [	[35, 735, 50, 750], \
 				[35, 752, 50, 767], \
 				[55, 752, 70, 767], \
 				[72, 742, 87, 757]]
-# turuncu az sol az yukarı
-#mavi ve yeşil az yukarı
+
+waitingPoints = [[70, 50, 85, 65], \
+				[45, 70, 60, 85], \
+				[55, 95, 70, 110], \
+				[85, 95, 100, 110], \
+				[95, 70, 110, 85]]
+
+inGamePoints = [[3, 700, 18, 715], \
+				[3, 720, 18, 735], \
+				[3, 740, 18, 755], \
+				[3, 760, 18, 775], \
+				[3, 780, 18, 795]]
+
 colors = [	["#9c5708", "#f05133"], \
 			["#9c5708", "#ffd200"], \
 			["#9c5708", "#2d91f0"], \
@@ -101,34 +112,39 @@ def checkSpots(player, place):
 
 def setPlayers(playerName):
 	global playerCount, playerNames, p1Name, p2Name, p3Name, p4Name, p5Name, maxPlayer, currPlayer, startPoints, \
-		colors, playerCircles, redPlayer, yellowPlayer, bluePlayer, greenPlayer, orangePlayer
+		colors, playerCircles, redPlayer, yellowPlayer, bluePlayer, greenPlayer, orangePlayer, waitingPoints
 	if playerCount > maxPlayer:
 		playerCount -= 1
 		return
 	if playerCount == 1:
 		p1Name = playerName
 		playerNames[0] = p1Name
-		redPlayer = canvasImage.create_oval(startPoints[0], outline=colors[0][0], fill=colors[0][1], width=2)
+		canvasImage.delete(redPlayer)
+		redPlayer = canvasImage.create_oval(inGamePoints[0], outline=colors[0][0], fill=colors[0][1], width=2)
 		playerCircles[0] = redPlayer
 	elif playerCount == 2:
 		p2Name = playerName
 		playerNames[1] = p2Name
-		yellowPlayer = canvasImage.create_oval(startPoints[1], outline=colors[1][0], fill=colors[1][1], width=2)
+		canvasImage.delete(yellowPlayer)
+		yellowPlayer = canvasImage.create_oval(inGamePoints[1], outline=colors[1][0], fill=colors[1][1], width=2)
 		playerCircles[1] = yellowPlayer
 	elif playerCount == 3:
 		p3Name = playerName
 		playerNames[2] = p3Name
-		bluePlayer = canvasImage.create_oval(startPoints[2], outline=colors[2][0], fill=colors[2][1], width=2)
+		canvasImage.delete(bluePlayer)
+		bluePlayer = canvasImage.create_oval(inGamePoints[2], outline=colors[2][0], fill=colors[2][1], width=2)
 		playerCircles[2] = bluePlayer
 	elif playerCount == 4:
 		p4Name = playerName
 		playerNames[3] = p4Name
-		greenPlayer = canvasImage.create_oval(startPoints[3], outline=colors[3][0], fill=colors[3][1], width=2)
+		canvasImage.delete(greenPlayer)
+		greenPlayer = canvasImage.create_oval(inGamePoints[3], outline=colors[3][0], fill=colors[3][1], width=2)
 		playerCircles[3] = greenPlayer
 	elif playerCount == 5:
 		p5Name = playerName
 		playerNames[4] = p5Name
-		orangePlayer = canvasImage.create_oval(startPoints[4], outline=colors[4][0], fill=colors[4][1], width=2)
+		canvasImage.delete(orangePlayer)
+		orangePlayer = canvasImage.create_oval(inGamePoints[4], outline=colors[4][0], fill=colors[4][1], width=2)
 		playerCircles[4] = orangePlayer
 	currPlayer = playerNames[0]
 
@@ -275,14 +291,28 @@ def removePlayerBtnFunc():
 	resBtnFunc()
 
 def resBtnFunc():
-	global p1Place, p2Place, p3Place, p4Place, p5Place, playerNames, currPlayer
+	global p1Place, p2Place, p3Place, p4Place, p5Place, playerNames, currPlayer, redPlayer, yellowPlayer, bluePlayer, greenPlayer, orangePlayer, playerCircles
 	p1Place = 0
 	p2Place = 0
 	p3Place = 0
 	p4Place = 0
 	p5Place = 0
+	resSpots()
 	currPlayer = playerNames[0]
 	return
+
+def resSpots():
+	global redPlayer, yellowPlayer, bluePlayer, greenPlayer, orangePlayer, canvasImage, waitingPoints
+	canvasImage.delete(redPlayer)
+	canvasImage.delete(yellowPlayer)
+	canvasImage.delete(bluePlayer)
+	canvasImage.delete(greenPlayer)
+	canvasImage.delete(orangePlayer)
+	redPlayer = canvasImage.create_oval(waitingPoints[0], outline=colors[0][0], fill=colors[0][1], width=2)
+	yellowPlayer = canvasImage.create_oval(waitingPoints[1], outline=colors[1][0], fill=colors[1][1], width=2)
+	bluePlayer = canvasImage.create_oval(waitingPoints[2], outline=colors[2][0], fill=colors[2][1], width=2)
+	greenPlayer = canvasImage.create_oval(waitingPoints[3], outline=colors[3][0], fill=colors[3][1], width=2)
+	orangePlayer = canvasImage.create_oval(waitingPoints[4], outline=colors[4][0], fill=colors[4][1], width=2)
 
 
 def movePlayer(player, moveDist):
@@ -305,6 +335,10 @@ def movePlayer(player, moveDist):
 		elif (pUptPlace == 99):
 			moveBy(redPlayer, "-y")
 			return
+		elif (pUptPlace == 0):
+			# put the player icon from 0 to the first spot
+			canvasImage.delete(redPlayer)
+			redPlayer = canvasImage.create_oval(startPoints[0], outline=colors[0][0], fill=colors[0][1], width=2)
 		pUptPlace += 1
 		movePlayer(player, moveDist-1)
 	elif player == p2Name:
@@ -321,6 +355,10 @@ def movePlayer(player, moveDist):
 		elif (pUptPlace == 99):
 			moveBy(yellowPlayer, "-y")
 			return
+		elif (pUptPlace == 0):
+			# put the player icon from 0 to the first spot
+			canvasImage.delete(yellowPlayer)
+			yellowPlayer = canvasImage.create_oval(startPoints[1], outline=colors[1][0], fill=colors[1][1], width=2)
 		pUptPlace += 1
 		movePlayer(player, moveDist-1)
 	elif player == p3Name:
@@ -337,6 +375,10 @@ def movePlayer(player, moveDist):
 		elif (pUptPlace == 99):
 			moveBy(bluePlayer, "-y")
 			return
+		elif (pUptPlace == 0):
+			# put the player icon from 0 to the first spot
+			canvasImage.delete(bluePlayer)
+			bluePlayer = canvasImage.create_oval(startPoints[2], outline=colors[2][0], fill=colors[2][1], width=2)
 		pUptPlace += 1
 		movePlayer(player, moveDist-1)	
 	elif player == p4Name:
@@ -353,6 +395,10 @@ def movePlayer(player, moveDist):
 		elif (pUptPlace == 99):
 			moveBy(greenPlayer, "-y")
 			return
+		elif (pUptPlace == 0):
+			# put the player icon from 0 to the first spot
+			canvasImage.delete(greenPlayer)
+			greenPlayer = canvasImage.create_oval(startPoints[3], outline=colors[3][0], fill=colors[3][1], width=2)
 		pUptPlace += 1
 		movePlayer(player, moveDist-1)
 	elif player == p5Name:
@@ -369,6 +415,10 @@ def movePlayer(player, moveDist):
 		elif (pUptPlace == 99):
 			moveBy(orangePlayer, "-y")
 			return
+		elif (pUptPlace == 0):
+			# put the player icon from 0 to the first spot
+			canvasImage.delete(orangePlayer)
+			orangePlayer = canvasImage.create_oval(startPoints[4], outline=colors[4][0], fill=colors[4][1], width=2)
 		pUptPlace += 1
 		movePlayer(player, moveDist-1)
 	return
@@ -494,6 +544,13 @@ for i in range(len(buttonNames)):
 # Rolled Dice Label
 rolledDice = tk.Label(canvasButtons, text="Rolled Dice: " + str(diceRolled), height=2, width=20, anchor=W)
 rolledDice.grid(row=len(buttonNames), column=0, padx=10, pady=10)
+
+redPlayer = canvasImage.create_oval(waitingPoints[0], outline=colors[0][0], fill=colors[0][1], width=2)
+yellowPlayer = canvasImage.create_oval(waitingPoints[1], outline=colors[1][0], fill=colors[1][1], width=2)
+bluePlayer = canvasImage.create_oval(waitingPoints[2], outline=colors[2][0], fill=colors[2][1], width=2)
+greenPlayer = canvasImage.create_oval(waitingPoints[3], outline=colors[3][0], fill=colors[3][1], width=2)
+orangePlayer = canvasImage.create_oval(waitingPoints[4], outline=colors[4][0], fill=colors[4][1], width=2)
+
 
 #Start the GUI
 window.mainloop()
