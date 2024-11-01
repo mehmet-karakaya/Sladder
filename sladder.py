@@ -263,32 +263,68 @@ def addPlayerBtnFunc():
 							pady = 5,
 							command = getInput)
 	printButton.pack()
+	resBtnFunc()
 
 def removePlayerBtnFunc():
-	global playerCount, currPlayer, playerNames, playerCircles, redPlayer, yellowPlayer, bluePlayer, greenPlayer, orangePlayer, canvasImage
+	global p1Place, p2Place, p3Place, p4Place, p5Place, playerCount, currPlayer, playerNames, playerCircles, redPlayer, yellowPlayer, bluePlayer, greenPlayer, orangePlayer, canvasImage, waitingPoints, colors, startPoints
 	if playerCount > 0:
 		playerCount -= 1
 		if playerCount == 0:
 			canvasImage.delete(redPlayer)
-			redPlayer = ""
-			playerNames[0] = redPlayer
+			redPlayer = canvasImage.create_oval(waitingPoints[0], outline=colors[0][0], fill=colors[0][1], width=2)
+			playerCircles[0] = redPlayer
 		elif playerCount == 1:
+			canvasImage.delete(redPlayer)
 			canvasImage.delete(yellowPlayer)
-			yellowPlayer = ""
-			playerNames[1] = yellowPlayer
+			redPlayer = canvasImage.create_oval(inGamePoints[0], outline=colors[0][0], fill=colors[0][1], width=2)
+			yellowPlayer = canvasImage.create_oval(waitingPoints[1], outline=colors[1][0], fill=colors[1][1], width=2)
+			playerCircles[0] = redPlayer
+			playerCircles[1] = yellowPlayer
 		elif playerCount == 2:
+			canvasImage.delete(redPlayer)
+			canvasImage.delete(yellowPlayer)
 			canvasImage.delete(bluePlayer)
-			bluePlayer = ""
+			redPlayer = canvasImage.create_oval(inGamePoints[0], outline=colors[0][0], fill=colors[0][1], width=2)
+			yellowPlayer = canvasImage.create_oval(inGamePoints[1], outline=colors[1][0], fill=colors[1][1], width=2)
+			bluePlayer = canvasImage.create_oval(waitingPoints[2], outline=colors[2][0], fill=colors[2][1], width=2)
+			playerCircles[0] = redPlayer
+			playerCircles[1] = yellowPlayer
 			playerNames[2] = bluePlayer
 		elif playerCount == 3:
+			canvasImage.delete(redPlayer)
+			canvasImage.delete(yellowPlayer)
+			canvasImage.delete(bluePlayer)
 			canvasImage.delete(greenPlayer)
-			greenPlayer = ""
-			playerNames[3] = greenPlayer
+			redPlayer = canvasImage.create_oval(inGamePoints[0], outline=colors[0][0], fill=colors[0][1], width=2)
+			yellowPlayer = canvasImage.create_oval(inGamePoints[1], outline=colors[1][0], fill=colors[1][1], width=2)
+			bluePlayer = canvasImage.create_oval(inGamePoints[2], outline=colors[2][0], fill=colors[2][1], width=2)
+			greenPlayer = canvasImage.create_oval(waitingPoints[3], outline=colors[3][0], fill=colors[3][1], width=2)
+			playerCircles[0] = redPlayer
+			playerCircles[1] = yellowPlayer
+			playerNames[2] = bluePlayer
+			playerCircles[3] = greenPlayer
 		elif playerCount == 4:
+			canvasImage.delete(redPlayer)
+			canvasImage.delete(yellowPlayer)
+			canvasImage.delete(bluePlayer)
+			canvasImage.delete(greenPlayer)
 			canvasImage.delete(orangePlayer)
-			orangePlayer = ""
-			playerNames[4] = orangePlayer
-	resBtnFunc()
+			redPlayer = canvasImage.create_oval(inGamePoints[0], outline=colors[0][0], fill=colors[0][1], width=2)
+			yellowPlayer = canvasImage.create_oval(inGamePoints[1], outline=colors[1][0], fill=colors[1][1], width=2)
+			bluePlayer = canvasImage.create_oval(inGamePoints[2], outline=colors[2][0], fill=colors[2][1], width=2)
+			greenPlayer = canvasImage.create_oval(inGamePoints[3], outline=colors[3][0], fill=colors[3][1], width=2)
+			orangePlayer = canvasImage.create_oval(waitingPoints[4], outline=colors[4][0], fill=colors[4][1], width=2)
+			playerCircles[0] = redPlayer
+			playerCircles[1] = yellowPlayer
+			playerNames[2] = bluePlayer
+			playerCircles[3] = greenPlayer
+			playerCircles[4] = orangePlayer
+		p1Place = 0
+		p2Place = 0
+		p3Place = 0
+		p4Place = 0
+		p5Place = 0
+		currPlayer = playerNames[0]
 
 def resBtnFunc():
 	global p1Place, p2Place, p3Place, p4Place, p5Place, playerNames, currPlayer, redPlayer, yellowPlayer, bluePlayer, greenPlayer, orangePlayer, playerCircles
@@ -302,17 +338,34 @@ def resBtnFunc():
 	return
 
 def resSpots():
-	global redPlayer, yellowPlayer, bluePlayer, greenPlayer, orangePlayer, canvasImage, waitingPoints
+	global redPlayer, yellowPlayer, bluePlayer, greenPlayer, orangePlayer, canvasImage, waitingPoints, playerCount, inGamePoints, maxPlayer
 	canvasImage.delete(redPlayer)
 	canvasImage.delete(yellowPlayer)
 	canvasImage.delete(bluePlayer)
 	canvasImage.delete(greenPlayer)
 	canvasImage.delete(orangePlayer)
-	redPlayer = canvasImage.create_oval(waitingPoints[0], outline=colors[0][0], fill=colors[0][1], width=2)
-	yellowPlayer = canvasImage.create_oval(waitingPoints[1], outline=colors[1][0], fill=colors[1][1], width=2)
-	bluePlayer = canvasImage.create_oval(waitingPoints[2], outline=colors[2][0], fill=colors[2][1], width=2)
-	greenPlayer = canvasImage.create_oval(waitingPoints[3], outline=colors[3][0], fill=colors[3][1], width=2)
-	orangePlayer = canvasImage.create_oval(waitingPoints[4], outline=colors[4][0], fill=colors[4][1], width=2)
+	for x in range(playerCount):
+		if x == 0:
+			redPlayer = canvasImage.create_oval(inGamePoints[0], outline=colors[0][0], fill=colors[0][1], width=2)
+		elif x == 1:
+			yellowPlayer = canvasImage.create_oval(inGamePoints[1], outline=colors[1][0], fill=colors[1][1], width=2)
+		elif x == 2:
+			bluePlayer = canvasImage.create_oval(inGamePoints[2], outline=colors[2][0], fill=colors[2][1], width=2)
+		elif x == 3:
+			greenPlayer = canvasImage.create_oval(inGamePoints[3], outline=colors[3][0], fill=colors[3][1], width=2)
+		elif x == 4:
+			orangePlayer = canvasImage.create_oval(inGamePoints[4], outline=colors[4][0], fill=colors[4][1], width=2)
+	for x in range(playerCount, maxPlayer):
+		if x == 0:
+			redPlayer = canvasImage.create_oval(waitingPoints[0], outline=colors[0][0], fill=colors[0][1], width=2)
+		elif x == 1:
+			yellowPlayer = canvasImage.create_oval(waitingPoints[1], outline=colors[1][0], fill=colors[1][1], width=2)
+		elif x == 2:
+			bluePlayer = canvasImage.create_oval(waitingPoints[2], outline=colors[2][0], fill=colors[2][1], width=2)
+		elif x == 3:
+			greenPlayer = canvasImage.create_oval(waitingPoints[3], outline=colors[3][0], fill=colors[3][1], width=2)
+		elif x == 4:
+			orangePlayer = canvasImage.create_oval(waitingPoints[4], outline=colors[4][0], fill=colors[4][1], width=2)
 
 
 def movePlayer(player, moveDist):
